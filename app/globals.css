@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -26,12 +26,18 @@ body {
   padding: 0;
   overflow: hidden;
   color: var(--foreground);
-  background: linear-gradient(to bottom, transparent, var(--background))
-    var(--background-dark);
+  background: linear-gradient(
+    to bottom,
+    var(--background-dark) 0%,
+    color-mix(in srgb, var(--background-dark), var(--background) 25%) 25%,
+    color-mix(in srgb, var(--background-dark), var(--background) 50%) 50%,
+    color-mix(in srgb, var(--background-dark), var(--background) 75%) 75%,
+    var(--background) 100%
+  );
 }
 
 .font-pixelify {
-  font-family: 'Pixelify Sans', sans-serif;
+  font-family: 'Exo 2', sans-serif;
 }
 
 #__next {
@@ -54,4 +60,56 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
+}
+
+/* Add this after your existing CSS */
+
+/* Toast container styles */
+.Toastify__toast-container {
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+/* Individual toast styles */
+.Toastify__toast {
+  background: var(--secondary);
+  color: var(--foreground);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Success toast */
+.Toastify__toast--success {
+  background: var(--secondary);
+  border-left: 4px solid #68d391;
+}
+
+/* Error toast */
+.Toastify__toast--error {
+  background: var(--secondary);
+  border-left: 4px solid #f56565;
+}
+
+/* Close button */
+.Toastify__close-button {
+  color: var(--foreground);
+  opacity: 0.7;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}
+
+/* Progress bar */
+.Toastify__progress-bar {
+  background: var(--primary);
+}
+
+/* Dark mode adjustments */
+.dark .Toastify__toast {
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
+.dark .Toastify__close-button {
+  color: var(--foreground);
 }

@@ -25,6 +25,11 @@ const Council = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 h-full overflow-y-auto">
+      {!proposals.length && (
+        <div className="flex items-center justify-center h-full">
+          <p>No proposals open, please come back later.</p>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {proposals.map((proposal) => (
           <ProposalCard key={proposal.proposalId} proposal={proposal} />

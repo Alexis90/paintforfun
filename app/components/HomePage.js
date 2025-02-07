@@ -3,13 +3,15 @@ import Image from 'next/image';
 export default function HomePage() {
   const handleHash = (e, hash) => {
     e.preventDefault();
-    console.log(hash);
     switch (hash) {
       case 'paint':
         window.location.hash = 'paint';
         break;
       case 'council':
         window.location.hash = 'council';
+        break;
+      case 'collections':
+        window.location.hash = 'collections';
         break;
     }
   };
@@ -49,6 +51,14 @@ export default function HomePage() {
             className="bg-secondary hover:bg-accent text-foreground font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
           >
             View Council
+          </button>
+          <button
+            onClick={(e) => {
+              handleHash(e, 'collections');
+            }}
+            className="bg-secondary hover:bg-accent text-foreground font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            NFT Collections
           </button>
         </div>
       </main>

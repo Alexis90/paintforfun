@@ -105,10 +105,29 @@ export default function PixelArtEditor({ dataJsonString }) {
     return exportedData;
   };
 
+  const handlePaste = (imageData) => {
+    const newGrid = [...grid];
+    for (let y = 0; y < CANVAS_SIZE; y++) {
+      for (let x = 0; x < CANVAS_SIZE; x++) {
+        const index = (y * CANVAS_SIZE + x) * 4;
+        const r = imageData.data[index];
+        const g = imageData.data[index + 1];
+        const b = imageData.data[index + 2];
+        const a = imageData.data[index + 3];
+        if (a > 0) {
+          newGrid[y][x] = `rgba(${r},${g},${b},${a / 255})`;
+        }
+      }
+    }
+    setGrid(newGrid);
+  };
+
   const shareArt = () => {
     const pixelArtGrid = localStorage.getItem('pixelArtGrid');
     const formattedData = exportPixelArt(JSON.parse(pixelArtGrid));
-    if (!formattedData.length) return;
+    if (!formattedData.length) {
+      return toast.error("Let's draw something first");
+    }
 
     const compressedData = compressToEncodedURIComponent(
       JSON.stringify(formattedData)
@@ -161,7 +180,7 @@ export default function PixelArtEditor({ dataJsonString }) {
           )}
 
           <main className="flex flex-col items-center">
-            <div className="relative w-full max-w-[512px] mx-auto">
+            <div className="relative w-full max-w-[min(512px,90vw)] mx-auto">
               <div
                 className="p-4 rounded-lg bg-secondary backdrop-blur-md shadow-lg overflow-hidden"
                 style={{ aspectRatio: '1 / 1' }}
@@ -173,6 +192,7 @@ export default function PixelArtEditor({ dataJsonString }) {
                   updateGrid={updateGrid}
                   selectedColor={selectedColor}
                   isRubberActive={isRubberActive}
+                  onPaste={handlePaste}
                 />
               </div>
             </div>

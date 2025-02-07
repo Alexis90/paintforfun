@@ -43,8 +43,18 @@ export default function RootLayout({ children }) {
             draggable
             pauseOnHover={false}
             theme={isDarkTheme ? 'dark' : 'light'}
+            toastClassName="font-pixelify" // Add this
+            bodyClassName="font-pixelify" // Add this
+            progressClassName="Toastify__progress-bar"
+            closeButton={({ closeToast }) => (
+              <button
+                onClick={closeToast}
+                className="Toastify__close-button hover:text-accent transition-colors"
+              >
+                ×
+              </button>
+            )}
           />
-          <Footer />
         </body>
       </Provider>
     </html>

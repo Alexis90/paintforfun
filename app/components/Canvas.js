@@ -14,6 +14,7 @@ export default function Canvas({
   updateGrid,
   selectedColor,
   isRubberActive,
+  onPaste,
 }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -143,6 +144,43 @@ export default function Canvas({
       updateGrid(x, y, isRubberActive ? null : selectedColor);
     }
   };
+
+  useEffect(() => {
+    const handlePaste = (e) => {
+      e.preventDefault();
+      const items = e.clipboardData.items;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const blob = items[i].getAsFile();
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+              const tempCanvas = document.createElement('canvas');
+              tempCanvas.width = CANVAS_SIZE;
+              tempCanvas.height = CANVAS_SIZE;
+              const tempCtx = tempCanvas.getContext('2d');
+              tempCtx.drawImage(img, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
+              const imageData = tempCtx.getImageData(
+                0,
+                0,
+                CANVAS_SIZE,
+                CANVAS_SIZE
+              );
+              onPaste(imageData);
+            };
+            img.src = event.target.result;
+          };
+          reader.readAsDataURL(blob);
+        }
+      }
+    };
+
+    document.addEventListener('paste', handlePaste);
+    return () => {
+      document.removeEventListener('paste', handlePaste);
+    };
+  }, [onPaste]);
 
   return (
     <div ref={containerRef} className="w-full h-full overflow-auto touch-none">

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import PixelArtEditor from './components/PixelArtEditor';
 import HomePage from './components/HomePage';
 import Council from './components/Council';
+import NFTsPage from './components/NFTsPage';
 
 export default function Page() {
   const [currentHash, setCurrentHash] = useState('');
@@ -24,6 +25,8 @@ export default function Page() {
         return <Council />;
       case 'home':
         return <HomePage />;
+      case 'collections':
+        return <NFTsPage />;
       default:
         return <HomePage />;
     }
